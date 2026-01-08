@@ -17,3 +17,8 @@
 body.dragging-card [data-sortable-group-value="cards"] li:hover {
   outline: none !important;
 }
+
+body.dragging-card [data-sortable-group-value="cards"] #new-card:hover {
+  border: 2 dashed !important;
+  opacity: 0.2 !important;
+}

@@ -47,7 +47,7 @@ export default class extends Controller {
   }
 
   sortCards(event) {
-    const cardIds = Array.from(event.to.children).map(el => el.dataset.id)
+    const cardIds = Array.from(event.to.children).slice(1, -1).map(el => el.dataset.id)
     const cardId = event.item.dataset.id
     const listId = event.to.closest('[data-id]').dataset.id
     const position = cardIds.indexOf(cardId) + 1

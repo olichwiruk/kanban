@@ -13,9 +13,17 @@
     data-sortable-group-value="cards"
     data-sortable-url-value="<%= move_card_path('CARD_ID') %>"
     class="space-y-3 min-h-[100px] h-full">
+    <li></li>
 
     <% list.cards.each do |card| %>
       <%= render "boards/card", card: card %>
     <% end %>
+
+    <div id="new-card"
+        class="bg-base-100 p-2 rounded cursor-pointer border-2 border-dashed opacity-20 hover:opacity-70 justify-center items-center flex">
+      <div class="flex">
+        <span class="text-5xl mb-2">+</span>
+      </div>
+    </div>
   </ul>
 </div>
