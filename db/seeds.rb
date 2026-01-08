@@ -8,5 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-Board.create!(name: "My First Board")
-Board.create!(name: "Project Alpha")
+board = Board.create!(name: "First Board")
+%w[Backlog In-Progress Done].each_with_index do |state, index|
+  board.lists.create!(name: state, position: index)
+end
+
+Board.create!(name: "Empty Board")
