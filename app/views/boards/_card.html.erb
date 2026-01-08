@@ -1,5 +1,6 @@
 <li id="card-<%= card.id %>"
-    class="bg-base-100 p-3 rounded shadow hover:shadow-md transition-shadow cursor-pointer">
+    data-id="<%= card.id %>"
+    class="bg-base-100 p-3 rounded shadow hover:shadow-md transition-shadow cursor-pointer hover:outline">
   <div class="flex items-center mb-2">
     <div class="font-medium flex-1"><%= card.title %></div>
     <div class="drag-handle flex-none cursor-grab">

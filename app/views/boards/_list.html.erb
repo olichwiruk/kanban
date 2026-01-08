@@ -9,6 +9,9 @@
    </div>
 
   <ul id="list-<%= list.id %>"
+    data-controller="sortable"
+    data-sortable-group-value="cards"
+    data-sortable-url-value="<%= move_card_path('CARD_ID') %>"
     class="space-y-3 min-h-[100px] h-full">
 
     <% list.cards.each do |card| %>

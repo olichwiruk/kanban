@@ -3,6 +3,7 @@
 
   <div id="lists-container"
        data-controller="sortable"
+       data-sortable-group-value="lists"
        data-sortable-url-value="<%= sort_lists_board_path %>"
        class="flex gap-4 pb-4 overflow-x-auto overflow-y-hidden min-h-[calc(90vh-14rem)] p-2 w-full">
     <% @board.lists.each do |list| %>

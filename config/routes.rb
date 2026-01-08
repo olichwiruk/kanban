@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :boards, only: [:show] do
-    patch :sort_lists, on: :member
+    member { patch :sort_lists }
+  end
+
+  resources :cards, only: [] do
+    member { patch :move }
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

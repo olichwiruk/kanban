@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+body.dragging-card [data-sortable-group-value="cards"] li:hover {
+  outline: none !important;
+}
