@@ -7,4 +7,12 @@
        <span>⠿</span>
      </div>
    </div>
+
+  <ul id="list-<%= list.id %>"
+    class="space-y-3 min-h-[100px] h-full">
+
+    <% list.cards.each do |card| %>
+      <%= render "boards/card", card: card %>
+    <% end %>
+  </ul>
 </div>

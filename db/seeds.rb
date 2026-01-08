@@ -10,7 +10,15 @@
 
 board = Board.create!(name: "First Board")
 %w[Backlog In-Progress Done].each_with_index do |state, index|
-  board.lists.create!(name: state, position: index)
+  list = board.lists.create!(name: state, position: index)
+
+  3.times do |n|
+    list.cards.create!(
+      title: "#{state} Task #{n + 1}",
+      body: "Description for #{state.downcase} task #{n + 1}",
+      position: n + 1
+    )
+  end
 end
 
 Board.create!(name: "Empty Board")

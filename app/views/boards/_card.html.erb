@@ -1,0 +1,10 @@
+<li id="card-<%= card.id %>"
+    class="bg-base-100 p-3 rounded shadow hover:shadow-md transition-shadow cursor-pointer">
+  <div class="flex items-center mb-2">
+    <div class="font-medium flex-1"><%= card.title %></div>
+    <div class="drag-handle flex-none cursor-grab">
+      <span>⠿</span>
+    </div>
+  </div>
+  <p class="text-sm text-base-content/70"><%= card.body %></p>
+</li>
