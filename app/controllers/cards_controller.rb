@@ -1,4 +1,11 @@
 class CardsController < ApplicationController
+  def show
+    @card = Card.find_by(id: params[:id])
+    return head :not_found unless @card
+
+    render partial: 'cards/show', locals: { card: @card }
+  end
+
   def move
     return head :bad_request unless move_params_valid?
 

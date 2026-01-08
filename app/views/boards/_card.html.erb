@@ -1,5 +1,7 @@
 <li id="card-<%= card.id %>"
     data-id="<%= card.id %>"
+    data-action="click->modal#open"
+    data-modal-url-value="<%= card_path(card) %>"
     class="bg-base-100 p-3 rounded cursor-pointer hover:outline">
   <div class="flex items-center mb-2">
     <div class="font-medium flex-1"><%= card.title %></div>

@@ -1,4 +1,4 @@
-<div class="pl-3 w-full">
+<div class="pl-3 w-full" data-controller="modal">
   <h1 class="font-bold text-4xl mb-10"><%= @board.name %></h1>
 
   <div id="lists-container"
@@ -10,4 +10,14 @@
       <%= render "boards/list", list: list %>
     <% end %>
   </div>
+
+  <dialog class="modal" data-modal-target="dialog">
+    <div class="modal-box w-11/12 max-w-3xl h-11/12">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      </form>
+      <div id="modal-content" data-modal-target="content">
+      </div>
+    </div>
+  </dialog>
 </div>

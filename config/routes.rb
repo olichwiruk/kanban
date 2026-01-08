@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     member { patch :sort_lists }
   end
 
-  resources :cards, only: [] do
+  resources :cards, only: [:show] do
     member { patch :move }
   end
 
