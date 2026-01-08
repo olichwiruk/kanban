@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :boards, only: [:show]
+  resources :boards, only: [:show] do
+    patch :sort_lists, on: :member
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
