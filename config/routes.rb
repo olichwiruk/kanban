@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :boards, only: [:show] do
+  root "boards#index"
+
+  resources :boards, only: [:inedx, :show] do
     member { patch :sort_lists }
   end
 
