@@ -188,4 +188,23 @@ RSpec.describe "Cards", type: :request do
       expect(response).to have_http_status(:bad_request)
     end
   end
+
+  describe "DELETE /cards/:id" do
+    let(:board) { Board.create!(name: "Test Board") }
+    let(:list) { board.lists.create!(name: "Test List", position: 1) }
+    let!(:card) { list.cards.create!(title: "Card to Delete", body: "Body", position: 1) }
+
+    it "deletes the card successfully" do
+      expect {
+        delete card_path(card)
+      }.to change(Card, :count).by(-1)
+
+      expect(response).to redirect_to(board_path(board))
+    end
+
+    it "returns not found for non-existing card" do
+      delete card_path(999999)
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

@@ -28,6 +28,14 @@ class CardsController < ApplicationController
     end
   end
 
+  def destroy
+    @card = Card.find_by(id: params[:id])
+    return head :not_found unless @card
+    board = @card.list.board
+    @card.destroy
+    redirect_to board_path(board)
+  end
+
   def move
     return head :bad_request unless move_params_valid?
 
