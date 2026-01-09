@@ -39,7 +39,7 @@ class CardsController < ApplicationController
 
     @card.update(list_id: target_list.id, position: params[:position])
 
-    card_ids = move_params[:card_ids].map(&:to_i)
+    card_ids = params[:card_ids].map(&:to_i)
     valid_card_ids = target_list.cards.where(id: card_ids).pluck(:id)
     return head :bad_request unless valid_card_ids.tally == card_ids.tally
 
@@ -54,10 +54,6 @@ class CardsController < ApplicationController
 
   private def card_params
     params.require(:card).permit(:title, :body, :list_id)
-  end
-
-  private def move_params
-    params.permit(:list_id, :position, card_ids: [])
   end
 
   private def move_params_valid?
