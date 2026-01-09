@@ -20,6 +20,8 @@
     <% end %>
 
     <div id="new-card"
+        data-action="click->modal#open"
+        data-modal-url-value="<%= new_card_path(list_id: list.id) %>"
         class="bg-base-100 p-2 rounded cursor-pointer border-2 border-dashed opacity-20 hover:opacity-70 justify-center items-center flex">
       <div class="flex">
         <span class="text-5xl mb-2">+</span>

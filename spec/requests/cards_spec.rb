@@ -125,4 +125,67 @@ RSpec.describe "Cards", type: :request do
       expect(response).to have_http_status(:bad_request)
     end
   end
+
+  describe "POST /cards" do
+    let(:board) { Board.create!(name: "Test Board") }
+    let(:list) { board.lists.create!(name: "Test List", position: 1) }
+
+    it "creates a new card successfully" do
+      expect {
+        post cards_path, params: {
+          card: {
+            title: "New Card",
+            body: "Card body",
+            list_id: list.id
+          }
+        }
+      }.to change(Card, :count).by(1)
+
+      expect(response).to redirect_to(board_path(board))
+      
+      card = Card.last
+      expect(card.title).to eq("New Card")
+      expect(card.body).to eq("Card body")
+      expect(card.list_id).to eq(list.id)
+      expect(card.position).to eq(1)
+    end
+
+    it "sets correct position for subsequent cards" do
+      list.cards.create!(title: "Card 1", body: "Body 1", position: 1)
+      list.cards.create!(title: "Card 2", body: "Body 2", position: 2)
+
+      post cards_path, params: {
+        card: {
+          title: "Card 3",
+          body: "Body 3",
+          list_id: list.id
+        }
+      }
+
+      expect(Card.last.position).to eq(3)
+    end
+
+    it "returns unprocessable entity when title is missing" do
+      post cards_path, params: {
+        card: {
+          body: "Card body",
+          list_id: list.id
+        }
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it "returns bad request when list_id is invalid" do
+      post cards_path, params: {
+        card: {
+          title: "New Card",
+          body: "Card body",
+          list_id: 999999
+        }
+      }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
 end

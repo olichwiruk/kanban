@@ -1,0 +1,26 @@
+<h3 class="font-bold text-lg mb-4">New Card - <%= @card.list.name %></h3>
+
+<%= form_with(model: @card, url: cards_path, class: "space-y-4") do |form| %>
+  <%= form.hidden_field :list_id, value: @card.list.id %>
+
+  <div class="form-control">
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, 
+                        class: "input input-bordered w-full",
+                        placeholder: "Enter card title",
+                        autofocus: true,
+                        required: true %>
+  </div>
+
+  <div class="form-control">
+    <%= form.label :body, class: "label" %>
+    <%= form.text_area :body,
+                       class: "textarea textarea-bordered w-full h-32",
+                       placeholder: "Enter card description" %>
+  </div>
+
+  <div class="modal-action">
+    <%= form.submit "Create Card", class: "btn btn-primary" %>
+    <button type="button" class="btn" onclick="this.closest('dialog').close()">Cancel</button>
+  </div>
+<% end %>
