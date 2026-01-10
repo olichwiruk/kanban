@@ -1,0 +1,2 @@
+<%= turbo_stream.update "list-#{@source_list.id}-counter", @source_list.reload.cards_count %>
+<%= turbo_stream.update "list-#{@target_list.id}-counter", @target_list.reload.cards_count %>

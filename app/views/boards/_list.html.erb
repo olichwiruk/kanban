@@ -3,7 +3,7 @@
   
    <div class="flex mb-4 items-center">
      <div class="font-bold text-lg flex-1">
-       <%= list.name %> <span class="badge"><%= list.cards_count %></span>
+       <%= list.name %> <span id="list-<%= list.id %>-counter" class="badge"><%= list.cards_count %></span>
      </div>
      <div class="drag-handle flex-none cursor-grab">
        <span>⠿</span>

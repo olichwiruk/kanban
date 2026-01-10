@@ -58,10 +58,13 @@ export default class extends Controller {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "text/vnd.turbo-stream.html",
         "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
       },
       body: JSON.stringify({ list_id: listId, position, card_ids: cardIds })
     })
+    .then(response => response.text())
+    .then(html => Turbo.renderStreamMessage(html))
   }
 
   disconnect() {

@@ -42,20 +42,24 @@ class CardsController < ApplicationController
     @card = Card.find_by(id: params[:id])
     return head :not_found unless @card
 
-    target_list = List.find_by(id: params[:list_id])
-    return head :bad_request unless target_list
+    @source_list = @card.list
+    @target_list = List.find_by(id: params[:list_id])
+    return head :bad_request unless @target_list
 
-    @card.update(list_id: target_list.id, position: params[:position])
+    @card.update(list_id: @target_list.id, position: params[:position])
 
     card_ids = params[:card_ids].map(&:to_i)
-    valid_card_ids = target_list.cards.where(id: card_ids).pluck(:id)
+    valid_card_ids = @target_list.cards.where(id: card_ids).pluck(:id)
     return head :bad_request unless valid_card_ids.tally == card_ids.tally
 
     card_ids.each_with_index do |id, i|
       Card.where(id: id).update_all(position: i + 1)
     end
 
-    head :ok
+    respond_to do |format|
+      format.turbo_stream
+      format.html { head :ok }
+    end
   rescue ActionController::ParameterMissing
     head :bad_request
   end
