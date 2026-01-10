@@ -305,9 +305,23 @@ Devise.setup do |config|
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
 
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
+  end
+
   # ==> Configuration for :registerable
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+end
+
+class CustomFailure < Devise::FailureApp
+  def redirect
+    store_location!
+    message = warden_message || :unauthenticated
+    flash[:alert] = nil if message == :unauthenticated
+
+    redirect_to redirect_url
+  end
 end
