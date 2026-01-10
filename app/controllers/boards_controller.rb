@@ -4,7 +4,7 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @board = Board.find_by(id: params[:id])
+    @board = Board.includes(lists: :cards).find_by(id: params[:id])
     head :not_found unless @board
   end
 
