@@ -19,10 +19,39 @@
   </head>
 
   <body>
+    <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+      <div class="navbar-start"></div>
+      <div class="navbar-center">
+        <%= link_to "Kanban", root_path, class: "btn btn-ghost text-xl" %>
+      </div>
+      <div class="navbar-end">
+        <% if user_signed_in? %>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img
+                  alt="User avater image"
+                  src="https://api.dicebear.com/9.x/initials/svg?seed=<%= current_user.email %>&backgroundType=gradientLinear" />
+              </div>
+            </div>
+            <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow rounded-box bg-base-200 border w-52">
+              <li class="menu-title">
+                <span><%= current_user.email %></span>
+              </li>
+              <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+              <li>
+                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "text-error cursor-pointer" %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
     <% if notice %>
       <div class="alert alert-success alert-vertical sm:alert-horizontal"><%= notice %></div>
     <% end %>
-    <% if alert %>
+    <% if alert && !devise_controller? %>
       <div class="alert alert-error alert-vertical sm:alert-horizontal"><%= alert %></div>
     <% end %>
     <main class="container md:mx-auto mt-[10vh] flex">
