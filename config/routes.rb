@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root "boards#index"
 
-  resources :boards, only: [:inedx, :show] do
+  resources :boards, only: [:index, :show] do
     member { patch :sort_lists }
   end
 
