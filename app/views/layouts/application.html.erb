@@ -19,6 +19,12 @@
   </head>
 
   <body>
+    <% if notice %>
+      <div class="alert alert-success alert-vertical sm:alert-horizontal"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-error alert-vertical sm:alert-horizontal"><%= alert %></div>
+    <% end %>
     <main class="container md:mx-auto mt-[10vh] flex">
       <%= yield %>
     </main>
