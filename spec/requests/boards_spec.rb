@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Boards", type: :request do
+  let(:user) { User.create!(email: 'test@example.com', password: 'password123') }
+
+  before do
+    sign_in user
+  end
+
   describe "GET /show" do
     let(:board) { Board.create!(name: "Test Board") }
 

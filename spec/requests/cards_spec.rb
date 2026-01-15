@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Cards", type: :request do
+  let(:user) { User.create!(email: 'test@example.com', password: 'password123') }
+
+  before do
+    sign_in user
+  end
+
   describe "PATCH /move" do
     let(:board) { Board.create!(name: "Test Board") }
     let(:list1) { board.lists.create!(name: "List 1", position: 1) }
