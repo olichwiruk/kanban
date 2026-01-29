@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Cards", type: :request do
   let(:user) { User.create!(email: 'test@example.com', password: 'password123') }
+  let(:board) { Board.create!(name: "Test Board") }
 
   before do
     sign_in user
+    board.add_member(user, role: :admin)
   end
 
   describe "PATCH /move" do
-    let(:board) { Board.create!(name: "Test Board") }
     let(:list1) { board.lists.create!(name: "List 1", position: 1) }
     let(:list2) { board.lists.create!(name: "List 2", position: 2) }
     let!(:card1) { list1.cards.create!(title: "Card 1", body: "Body 1", position: 1) }
@@ -68,7 +69,7 @@ RSpec.describe "Cards", type: :request do
         position: 1, 
         card_ids: [card1.id] 
       }
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:not_found)
     end
 
     it "returns http bad request for non-existing card ids in target list" do
@@ -133,7 +134,6 @@ RSpec.describe "Cards", type: :request do
   end
 
   describe "POST /cards" do
-    let(:board) { Board.create!(name: "Test Board") }
     let(:list) { board.lists.create!(name: "Test List", position: 1) }
 
     it "creates a new card successfully" do
@@ -196,7 +196,6 @@ RSpec.describe "Cards", type: :request do
   end
 
   describe "DELETE /cards/:id" do
-    let(:board) { Board.create!(name: "Test Board") }
     let(:list) { board.lists.create!(name: "Test List", position: 1) }
     let!(:card) { list.cards.create!(title: "Card to Delete", body: "Body", position: 1) }
 

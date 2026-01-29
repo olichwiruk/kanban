@@ -1,16 +1,19 @@
 class CardsController < ApplicationController
   def show
-    @card = Card.find_by(id: params[:id])
+    @card = Card.eager_load(list: :board).find_by(id: params[:id])
     return head :not_found unless @card
+    authorize @card
 
     render partial: 'cards/show', locals: { card: @card }
   end
 
   def new
-    list = List.find_by(id: params[:list_id])
+    list = List.eager_load(:board).find_by(id: params[:list_id])
     return head :bad_request unless list
 
     @card = Card.new(list: list)
+    authorize @card
+
     render partial: 'cards/new', locals: { card: @card }
   end
 
@@ -19,6 +22,7 @@ class CardsController < ApplicationController
     return head :bad_request unless list
 
     @card = list.cards.build(card_params.except(:list_id))
+    authorize @card
     @card.position = list.cards.maximum(:position).to_i + 1
 
     if @card.save
@@ -29,8 +33,10 @@ class CardsController < ApplicationController
   end
 
   def destroy
-    @card = Card.find_by(id: params[:id])
+    @card = Card.eager_load(list: :board).find_by(id: params[:id])
     return head :not_found unless @card
+    authorize @card
+
     board = @card.list.board
     @card.destroy
     redirect_to board_path(board)
@@ -39,12 +45,14 @@ class CardsController < ApplicationController
   def move
     return head :bad_request unless move_params_valid?
 
-    @card = Card.find_by(id: params[:id])
-    return head :not_found unless @card
-
+    @card = Card.eager_load(list: :board).find_by(id: params[:id])
+    @target_list = List.eager_load(:board).find_by(id: params[:list_id])
+    return head :not_found unless @card && @target_list
+    authorize @card
     @source_list = @card.list
-    @target_list = List.find_by(id: params[:list_id])
-    return head :bad_request unless @target_list
+    unless @source_list.board_id == @target_list.board_id
+      return head :unprocessable_entity
+    end
 
     @card.update(list_id: @target_list.id, position: params[:position])
 
