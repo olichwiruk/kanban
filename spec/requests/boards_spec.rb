@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Boards", type: :request do
   let(:user) { User.create!(email: 'test@example.com', password: 'password123') }
+  let(:board) { Board.create!(name: "Test Board") }
 
   before do
     sign_in user
+    board.add_member(user, role: :admin)
   end
 
   describe "GET /show" do
-    let(:board) { Board.create!(name: "Test Board") }
 
     it "returns http success" do
       get board_path(board)
@@ -22,7 +23,6 @@ RSpec.describe "Boards", type: :request do
   end
 
   describe "PATCH /sort_lists" do
-    let(:board) { Board.create!(name: "Test Board") }
     let!(:list1) { board.lists.create!(name: "List 1", position: 1) }
     let!(:list2) { board.lists.create!(name: "List 2", position: 2) }
     let!(:list3) { board.lists.create!(name: "List 3", position: 3) }

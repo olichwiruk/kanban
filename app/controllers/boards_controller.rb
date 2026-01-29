@@ -1,16 +1,18 @@
 class BoardsController < ApplicationController
   def index
-    @boards = Board.all
+    @boards = current_user.boards
   end
 
   def show
     @board = Board.includes(lists: :cards).find_by(id: params[:id])
-    head :not_found unless @board
+    return head :not_found unless @board
+    authorize_member
   end
 
   def sort_lists
     @board = Board.find_by(id: params[:id])
     return head :not_found unless @board
+    authorize_member
 
     list_ids = sort_lists_params
     valid_list_ids = @board.lists.all.pluck(:id)
@@ -25,5 +27,9 @@ class BoardsController < ApplicationController
 
   private def sort_lists_params
     params.require(:lists).map(&:to_i)
+  end
+
+  private def authorize_member
+    redirect_to root_path, alert: "Access denied" unless @board.member?(current_user)
   end
 end
