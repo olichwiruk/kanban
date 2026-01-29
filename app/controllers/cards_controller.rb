@@ -54,15 +54,21 @@ class CardsController < ApplicationController
       return head :unprocessable_entity
     end
 
-    @card.update(list_id: @target_list.id, position: params[:position])
+    transaction_successful = false
+    Card.transaction do
+      @card.update!(list_id: @target_list.id, position: params[:position])
 
-    card_ids = params[:card_ids].map(&:to_i)
-    valid_card_ids = @target_list.cards.where(id: card_ids).pluck(:id)
-    return head :bad_request unless valid_card_ids.tally == card_ids.tally
+      card_ids = params[:card_ids].map(&:to_i)
+      unless @target_list.cards.where(id: card_ids).count == card_ids.size
+        raise ActiveRecord::Rollback
+      end
 
-    card_ids.each_with_index do |id, i|
-      Card.where(id: id).update_all(position: i + 1)
+      card_ids.each_with_index do |id, i|
+        Card.where(id: id).update_all(position: i + 1)
+      end
+      transaction_successful = true
     end
+    return head :bad_request unless transaction_successful
 
     respond_to do |format|
       format.turbo_stream
