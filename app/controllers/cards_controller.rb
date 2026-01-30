@@ -7,6 +7,15 @@ class CardsController < ApplicationController
     render partial: 'cards/show', locals: { card: @card }
   end
 
+  def comments
+    @card = Card.eager_load(comments: :author).find_by(id: params[:id])
+    return head :not_found unless @card
+    authorize @card, :show?
+
+    @comments = @card.comments.order(created_at: :asc)
+    render partial: 'comments/index', locals: { comments: @comments }
+  end
+
   def new
     list = List.eager_load(:board).find_by(id: params[:list_id])
     return head :bad_request unless list

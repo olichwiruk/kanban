@@ -7,6 +7,15 @@
     <p>List: <%= card.list.name %></p>
   </div>
 
+  <div class="divider">Comments</div>
+  <div class="md:px-4 flex-grow overflow-y-auto">
+    <%= turbo_frame_tag dom_id(card, :comments), src: comments_card_path(card), loading: :lazy do %>
+      <div class="flex justify-center items-center py-4">
+        <span class="loading loading-spinner loading-sm"></span>
+      </div>
+    <% end %>
+  </div>
+
   <div class="modal-action mt-auto">
     <%= button_to "Delete Card", card_path(card), method: :delete, class: "btn btn-error" %>
   </div>
