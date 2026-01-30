@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :board_memberships, dependent: :destroy
   has_many :boards, through: :board_memberships
+  has_many :comments, foreign_key: :author_id, dependent: :destroy
 
   def admin_of?(board)
     board_memberships.find_by(board: board)&.admin?
