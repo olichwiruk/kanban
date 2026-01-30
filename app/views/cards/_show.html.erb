@@ -9,10 +9,14 @@
 
   <div class="divider">Comments</div>
   <div class="md:px-4 flex-grow overflow-y-auto">
-    <%= turbo_frame_tag dom_id(card, :comments), src: comments_card_path(card), loading: :lazy do %>
-      <div class="flex justify-center items-center py-4">
-        <span class="loading loading-spinner loading-sm"></span>
-      </div>
+    <% if card.comments_count > 0 %>
+      <%= turbo_frame_tag dom_id(card, :comments), src: comments_card_path(card), loading: :lazy do %>
+        <div class="flex justify-center items-center py-4">
+          <span class="loading loading-spinner loading-sm"></span>
+        </div>
+      <% end %>
+    <% else %>
+      No comments
     <% end %>
   </div>
 
