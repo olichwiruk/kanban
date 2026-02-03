@@ -1,7 +1,9 @@
-<%= turbo_frame_tag dom_id(@card, :comments) do %>
+<%= turbo_frame_tag dom_id(@card, :comments), class: "block h-full" do %>
   <%= turbo_stream_from @card, "comments" %>
 
-  <div id="comments">
+  <div id="comments"
+       data-controller="autoscroll"
+       class="h-full overflow-y-auto">
     <% comments.each do |comment| %>
       <%= render comment %>
     <% end %>
