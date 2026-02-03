@@ -10,4 +10,9 @@
     </div>
   </div>
   <p class="text-sm text-base-content/70"><%= card.body %></p>
+  <% if card.comments_count > 0 %>
+    <span class="badge badge-ghost badge-sm mt-2">
+      <span id="<%= dom_id(card, :comments_counter) %>"><%= card.comments_count %></span> comments
+    </span>
+  <% end %>
 </li>

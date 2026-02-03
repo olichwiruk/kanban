@@ -12,6 +12,12 @@ class CommentsController < ApplicationController
         locals: { comment: @comment }
       )
 
+      Turbo::StreamsChannel.broadcast_update_to(
+        @card.list.board,
+        target: ActionView::RecordIdentifier.dom_id(@card, :comments_counter),
+        html: @card.reload.comments_count.to_s
+      )
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to @card, notice: 'Comment was successfully created.' }
