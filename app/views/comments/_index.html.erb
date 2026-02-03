@@ -1,19 +1,9 @@
 <%= turbo_frame_tag dom_id(@card, :comments) do %>
-  <% comments.each do |comment| %>
-    <div class="chat <%= current_user.id == comment.author_id ? "chat-end" : "chat-start" %>">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img
-            alt="User avater image"
-            src="https://api.dicebear.com/9.x/initials/svg?seed=<%= comment.author.email %>&backgroundType=gradientLinear"
-          />
-        </div>
-      </div>
-      <div class="chat-header pb-1">
-        <%= comment.author.email %>
-        <time class="text-xs opacity-50"><%= time_ago_in_words(comment.created_at) %> ago</time>
-      </div>
-      <div class="chat-bubble"><%= comment.content %></div>
-    </div>
-  <% end %>
+  <%= turbo_stream_from @card, "comments" %>
+
+  <div id="comments">
+    <% comments.each do |comment| %>
+      <%= render comment %>
+    <% end %>
+  </div>
 <% end %>

@@ -20,6 +20,8 @@
     <% end %>
   </div>
 
+  <%= render 'comments/form', card: card %>
+
   <div class="modal-action mt-auto">
     <%= button_to "Delete Card", card_path(card), method: :delete, class: "btn btn-error" %>
   </div>

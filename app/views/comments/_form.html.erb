@@ -1,0 +1,10 @@
+<div id="<%= dom_id(card, :new_comment) %>" class="md:px-4 mb-4">
+  <%= form_with model: [card, Comment.new], local: false, class: "mt-4" do |form| %>
+    <div class="form-control">
+      <%= form.text_area :content, rows: 3, class: "textarea textarea-bordered w-full", placeholder: "Write your comment here..." %>
+    </div>
+    <div class="form-control mt-2">
+      <%= form.submit "Post Comment", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

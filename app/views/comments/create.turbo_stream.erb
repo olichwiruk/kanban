@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@card, :new_comment) do %>
+  <%= render 'comments/form', card: @card %>
+<% end %>
