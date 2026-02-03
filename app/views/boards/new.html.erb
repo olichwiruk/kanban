@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "new_board_card", class: "contents" do %>
+  <div class="card border bg-base-200 rounded-lg shadow-xl" data-controller="inline-form">
+    <div class="card-body">
+      <div class="card-title">
+        <%= form_with(model: @board, url: boards_path) do |f| %>
+          <%= f.text_field :name, 
+                class: "bg-transparent border-none focus:ring-0 text-lg font-bold w-full p-0", 
+                data: {
+                  inline_form_target: "input",
+                  action: "blur->inline-form#submit keydown.esc->inline-form#cancel"
+                }
+              %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

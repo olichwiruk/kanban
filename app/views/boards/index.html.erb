@@ -3,13 +3,13 @@
     <h1 class="text-3xl font-bold">My Boards</h1>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-fr">
     <% @boards.each do |board| %>
-      <%= link_to board_path(board), class: "border card bg-base-200 rounded-lg shadow-xl transition" do %>
-        <div class="card-body">
-          <h2 class="card-title"><%= board.name %></h2>
-        </div>
-      <% end %>
+      <%= render 'boards/board_link', board: board %>
+    <% end %>
+
+    <%= turbo_frame_tag "new_board_card", class: "contents" do %>
+      <%= render 'boards/new_link' %>
     <% end %>
   </div>
 </div>
