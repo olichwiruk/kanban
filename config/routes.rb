@@ -2,16 +2,16 @@ Rails.application.routes.draw do
   devise_for :users
   root "boards#index"
 
-  resources :boards, only: [:index, :show, :new, :create] do
+  resources :boards, only: [ :index, :show, :new, :create ] do
     member { patch :sort_lists }
   end
 
-  resources :cards, only: [:show, :create, :new, :destroy] do
+  resources :cards, only: [ :show, :create, :new, :destroy ] do
     member do
       patch :move
       get :comments
     end
-    resources :comments, only: [:create]
+    resources :comments, only: [ :create ]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

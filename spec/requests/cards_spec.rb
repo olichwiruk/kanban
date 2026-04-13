@@ -17,10 +17,10 @@ RSpec.describe "Cards", type: :request do
     let!(:card3) { list1.cards.create!(title: "Card 3", body: "Body 3", position: 3) }
 
     it "moves card within same list successfully" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 2, 
-        card_ids: [card2.id, card1.id, card3.id] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 2,
+        card_ids: [ card2.id, card1.id, card3.id ]
       }
       expect(response).to have_http_status(:ok)
 
@@ -30,10 +30,10 @@ RSpec.describe "Cards", type: :request do
     end
 
     it "moves card to different list successfully" do
-      patch move_card_path(card1), params: { 
-        list_id: list2.id, 
-        position: 1, 
-        card_ids: [card1.id] 
+      patch move_card_path(card1), params: {
+        list_id: list2.id,
+        position: 1,
+        card_ids: [ card1.id ]
       }
       expect(response).to have_http_status(:ok)
 
@@ -42,10 +42,10 @@ RSpec.describe "Cards", type: :request do
     end
 
     it "reorders multiple cards in target list" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 3, 
-        card_ids: [card2.id, card3.id, card1.id] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 3,
+        card_ids: [ card2.id, card3.id, card1.id ]
       }
       expect(response).to have_http_status(:ok)
 
@@ -55,79 +55,79 @@ RSpec.describe "Cards", type: :request do
     end
 
     it "returns http not found for non-existing card" do
-      patch move_card_path(999999), params: { 
-        list_id: list1.id, 
-        position: 1, 
-        card_ids: [999999] 
+      patch move_card_path(999999), params: {
+        list_id: list1.id,
+        position: 1,
+        card_ids: [ 999999 ]
       }
       expect(response).to have_http_status(:not_found)
     end
 
     it "returns http not found for non-existing target list" do
-      patch move_card_path(card1), params: { 
-        list_id: 999999, 
-        position: 1, 
-        card_ids: [card1.id] 
+      patch move_card_path(card1), params: {
+        list_id: 999999,
+        position: 1,
+        card_ids: [ card1.id ]
       }
       expect(response).to have_http_status(:not_found)
     end
 
     it "returns http bad request for non-existing card ids in target list" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 1, 
-        card_ids: [card1.id, 999999] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 1,
+        card_ids: [ card1.id, 999999 ]
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request for invalid card ids" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 1, 
-        card_ids: [card1.id, "invalid value"] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 1,
+        card_ids: [ card1.id, "invalid value" ]
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request when list_id is missing" do
-      patch move_card_path(card1), params: { 
-        position: 1, 
-        card_ids: [card1.id] 
+      patch move_card_path(card1), params: {
+        position: 1,
+        card_ids: [ card1.id ]
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request when position is missing" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        card_ids: [card1.id] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        card_ids: [ card1.id ]
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request when card_ids is missing" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 1 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 1
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request when card_ids is not an array" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 1, 
-        card_ids: "not an array" 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 1,
+        card_ids: "not an array"
       }
       expect(response).to have_http_status(:bad_request)
     end
 
     it "returns http bad request when card_ids contains non-numeric values" do
-      patch move_card_path(card1), params: { 
-        list_id: list1.id, 
-        position: 1, 
-        card_ids: [card1.id, "abc", card2.id] 
+      patch move_card_path(card1), params: {
+        list_id: list1.id,
+        position: 1,
+        card_ids: [ card1.id, "abc", card2.id ]
       }
       expect(response).to have_http_status(:bad_request)
     end
@@ -148,7 +148,7 @@ RSpec.describe "Cards", type: :request do
       }.to change(Card, :count).by(1)
 
       expect(response).to redirect_to(board_path(board))
-      
+
       card = Card.last
       expect(card.title).to eq("New Card")
       expect(card.body).to eq("Card body")

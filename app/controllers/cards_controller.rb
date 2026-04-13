@@ -4,7 +4,7 @@ class CardsController < ApplicationController
     return head :not_found unless @card
     authorize @card
 
-    render partial: 'cards/show', locals: { card: @card }
+    render partial: "cards/show", locals: { card: @card }
   end
 
   def comments
@@ -13,7 +13,7 @@ class CardsController < ApplicationController
     authorize @card, :show?
 
     @comments = @card.comments.order(created_at: :asc)
-    render partial: 'comments/index', locals: { comments: @comments }
+    render partial: "comments/index", locals: { comments: @comments }
   end
 
   def new
@@ -23,7 +23,7 @@ class CardsController < ApplicationController
     @card = Card.new(list: list)
     authorize @card
 
-    render partial: 'cards/new', locals: { card: @card }
+    render partial: "cards/new", locals: { card: @card }
   end
 
   def create
@@ -37,7 +37,7 @@ class CardsController < ApplicationController
     if @card.save
       redirect_to board_path(list.board)
     else
-      render partial: 'cards/new', locals: { card: @card }, status: :unprocessable_content
+      render partial: "cards/new", locals: { card: @card }, status: :unprocessable_content
     end
   end
 

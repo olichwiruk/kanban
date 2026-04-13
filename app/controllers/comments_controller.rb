@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
     if @comment.save
       Turbo::StreamsChannel.broadcast_append_to(
-        [@card, "comments"],
+        [ @card, "comments" ],
         target: "comments",
         partial: "comments/comment",
         locals: { comment: @comment }
@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
 
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to @card, notice: 'Comment was successfully created.' }
+        format.html { redirect_to @card, notice: "Comment was successfully created." }
       end
     else
       render :new, status: :unprocessable_entity
