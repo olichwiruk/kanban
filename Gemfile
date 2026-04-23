@@ -48,7 +48,7 @@ group :development, :test do
 
   gem "rspec-rails", "~> 7.0"
 
-  gem "bullet", "~> 8.0"
+  gem "bullet", "~> 8.1"
 end
 
 group :development do
